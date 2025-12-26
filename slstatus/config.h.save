@@ -66,15 +66,12 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
-	{ uptime,         "|開機時間:%s",      "NULL" },
-	{ wifi_essid,         "|網絡:%s:", 	"wlp0s20f3" },
-	{ wifi_perc,         "%s%|",  "wlp0s20f3" },
-	{ vol_perc,     "聲音:%s%|",   "/dev/mixer" },
-	{ disk_free,    "磁盤:%sB|",     "/" },
-	{ battery_perc, "電池:%s%%","BAT0" },
-	{ battery_state, "%s|","BAT0" },
-	{ cpu_perc, "處理器:%s%%|", NULL },
-	{ ram_used, "內存:%sMB|", NULL },
-	{ datetime, "日期:%s", "%F %T|"          },
+	 {  wifi_perc,         " wlan0:%s|",         "wlan0" },
+	 { disk_free,    "Disk%s|",     "/" },
+	 { vol_perc,     "Volume:%s|",   "/dev/mixer" },
+	{ battery_perc, "Battery%s%%|","BAT0" },
+	{ cpu_perc, "CPU:%s%%|", NULL },
+	{ ram_used, "RAM:%sMB|", NULL },
+	{ datetime, "%s",           "%F %T"  },
 
 };
