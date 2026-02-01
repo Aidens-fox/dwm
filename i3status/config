@@ -1,0 +1,80 @@
+order += "wireless _first_"
+order += "battery all"
+order +=  "read_file light"
+order += "volume master"
+order += "cpu_usage"
+order += "cpu_temperature 0"
+order += "memory"
+order += "tztime local"
+
+general {
+	color_good = "#a6da95"
+        color_bad  = "#ed8796"
+	color_degraded = "#afb4db" 
+    separator = "" 
+       colors = true
+        interval = 1
+}
+
+
+
+
+cpu_usage {
+	format = "[處理器%usage]"
+}
+
+read_file light {
+	#format = "%title: %content"
+	format = "[亮度%content]"
+	path = "/sys/class/backlight/intel_backlight/brightness"
+#	Max_characters = 100
+}
+
+wireless _first_ {
+        format_up = "[網絡%quality]"
+        format_down = "[無網絡]"
+}
+
+ethernet _first_ {
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery all {
+        format = "[%status%percentage]"
+        format_down = "No battery"
+        status_chr = "充電"
+        status_bat = "電池"
+        status_unk = "電池異常"
+        status_full = "充電完成"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+        threshold_type = "percentage"
+}
+
+
+
+
+memory {
+        format = "[內存%used]"
+        threshold_degraded = "10%"
+        format_degraded = "MEMORY: %free"
+}
+
+tztime local {
+        format = "[日期%Y年-%m月-%d日-時間%H:%M:%S]"
+}
+
+volume master {
+	format = "[聲音%volume]"
+	format_muted = "[無使用]"
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}
+
+cpu_temperature 0 {
+        format = "[溫度%degrees°C]"
+        max_threshold = 85
+        path = "/sys/class/thermal/thermal_zone0/temp"
+}
