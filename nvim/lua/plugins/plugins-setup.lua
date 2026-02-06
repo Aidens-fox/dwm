@@ -25,10 +25,6 @@ use {
   },
 }
      use "christoomey/vim-tmux-navigator" -- 用ctl-hjkl来定位窗口
-use {'neoclide/coc.nvim',
-branch = 'release',
- run = 'npm install --frozen-lockfile'
-}
 -- My plugins here
   -- use 'foo1/bar1.nvim'
   -- use 'foo2/bar2.nvim'

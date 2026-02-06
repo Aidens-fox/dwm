@@ -6,7 +6,7 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 static const char *fonts[]          = { "LXGW Neo XiHei Plus:size=15" };
-static const char dmenufont[]       = "LXGW Neo XiHei Plus=20";
+static const char dmenufont[]       = "LXGW Neo XiHei Plus:size=15";
 static const char col_gray1[]       = "#282828"; // 背景颜色 (Dark0)
 static const char col_gray2[]       = "#504945"; // 边框颜色 (非活动)
 static const char col_gray3[]       = "#ebdbb2"; // 文本颜色 (Foreground)
