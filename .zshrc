@@ -7,4 +7,6 @@ compinit
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
 PROMPT="%n@%m %1~ %# "
+alias dwm='startx'
+
 HISTFILE=~/.zsh_history
