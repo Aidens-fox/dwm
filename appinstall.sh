@@ -14,8 +14,9 @@ echo "install xorg"
 sudo pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot xorg-xset xsel xorg-xkill libx11 libxft libxinerama xwallpaper
 echo "install Font"
 sudo pacman -S ttf-sarasa-gothic noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono-nerd
-echo "install Terminal nvim"
-sudo pacman -S alacritty neovim mpv yazi ueberzugpp emacs 
+echo "install yazi emacs nvim"
+sudo pacman -S  neovim mpv yazi ueberzugpp emacs 
+sudo pacman -S yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick
 echo "install zsh"
 sudo pacman -S zsh-completions zsh
 chsh -s /usr/bin/zsh
@@ -43,6 +44,8 @@ echo "cp wallpaper"
 cp -r 壁纸 $HOME/
 echo "cp emacs"
 cp -r emacs $HOME/.config/
+echo "cp yazi"
+cp -r yazi $HOME/.config/
 echo "cp .xinitrc"
 cp -r .xinitrc $HOME/
 chmod +x $HOME/.xinitrc
