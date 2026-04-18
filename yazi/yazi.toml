@@ -1,0 +1,13 @@
+[opener]
+edit = [
+    { run = 'nvim "$@"', block = true, desc = "Neovim" },
+]
+play = [
+    { run = 'mpv "$@"', orphan = true, desc = "MPV" },
+]
+[open]
+rules = [
+    { mime = "text/*", use = "edit" },
+    { mime = "video/*", use = "play" },
+    { name = "*.md", use = "edit" },
+]
