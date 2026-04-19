@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "JetBrains Mono:size=20";
+static char *font = "JetBrainsMono Nerd Font:size=20";
 
 static char *font2[] = {
     "Noto Sans CJK SC:size=20",
