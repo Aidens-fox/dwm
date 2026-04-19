@@ -13,10 +13,9 @@ sudo pacman -S  yay base-devel git
 echo "install xorg"
 sudo pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot xorg-xset xsel xorg-xkill libx11 libxft libxinerama xwallpaper
 echo "install Font"
-sudo pacman -S ttf-sarasa-gothic noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono-nerd
+sudo pacman -S ttf-sarasa-gothic  noto-fonts  noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono-nerd
 echo "install yazi emacs nvim"
-sudo pacman -S  neovim mpv yazi ueberzugpp emacs 
-sudo pacman -S yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick
+sudo pacman -S  neovim mpv yazi ueberzugpp emacs ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick unzip nwg-look
 echo "install zsh"
 sudo pacman -S zsh-completions zsh
 chsh -s /usr/bin/zsh
