@@ -16,12 +16,14 @@ xsetroot -name "[$net_icon][ $audio%][$bat_icon$bat%][$time]"
    sleep 1s
 done &
 export XCURSOR_THEME="Moga-Neon-Sandy"
-export XCURSOR_SIZE=24
+export XCURSOR_SIZE=25
 export LANG=zh_CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 export _JAVA_AWT_WM_NONREPARENTING=1 
 exec fcitx5  & 
 xwallpaper --zoom 壁纸/pacman.png &
 xset s off -dpms &
+xinput set-prop 10 351 1
 /usr/bin/lxpolkit & 
+xss-lock -- slock &
 exec dwm
