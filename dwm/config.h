@@ -77,7 +77,7 @@ static const char *flameshotcmd[] = { "flameshot", "gui", NULL };
 static const char *nmcmd[]  = { "st", "-c", "network-manager", "-e", "nmtui", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", "scratchpad", NULL };
-
+static const char *slock[] = { "slock",NULL };
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
         { 0, XF86XK_AudioMute,        spawn, {.v = mute_vol } },
@@ -86,7 +86,8 @@ static const Key keys[] = {
         { 0, XF86XK_MonBrightnessDown, spawn, {.v = dimmer } },
         { 0, XF86XK_MonBrightnessUp,   spawn, {.v = brighter } },
 
-        { MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
+	{ MODKEY,			XK_q,	   spawn, 	   {.v = slock } },
+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_n,      spawn,          {.v = nmcmd } },
 	{ MODKEY, XK_s, spawn, {.v = flameshotcmd } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
