@@ -2,12 +2,26 @@
 edit = [
     { run = 'nvim "$@"', block = true, desc = "Neovim" },
 ]
+
+imv = [
+    { run = 'imv "$@"', desc = "imv", orphan = true, for = "unix" }
+]
+
+emacs-gui = [
+    { run = 'emacs %s', desc = "Emacs (GUI)", orphan = true, for = "unix" }
+]
+
 play = [
     { run = 'mpv "$@"', orphan = true, desc = "MPV" },
 ]
+
 [open]
-rules = [
-    { mime = "text/*", use = "edit" },
+prepend_rules = [
+    { url = "*.md", use = [ "emacs-gui", "edit" ] },
+    { url = "*.lua", use = "edit" },
+
     { mime = "video/*", use = "play" },
-    { name = "*.md", use = "edit" },
+    { mime = "image/*", use = [ "imv", "reveal" ] },
+    { mime = "text/*", use = "edit" },
 ]
+

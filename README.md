@@ -1,7 +1,10 @@
 # dwm
 # appinstall脚本只针对基本系统，如果已经不是基本系统请不要运行!
 dwm配置分享
-<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/d0eee5ec-5121-4f42-81fe-0bc5452c91e1" />
+
+<img src="https://github.com/user-attachments/assets/d0eee5ec-5121-4f42-81fe-0bc5452c91e1"
+width="500" style="height: auto;">
+
 使用字体：
 
 JetBrainsMono Nerd Font
