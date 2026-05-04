@@ -31,6 +31,8 @@ dwm-tagshift
 
 dwm-restartsig
 
+dwm-gridmode
+
 dmenu补丁
 
 dmenu-caseinsensitive
@@ -58,3 +60,5 @@ mod+shift+left : 移动窗口到左边的工作区
 mod+shift+right ： 移动窗口到右边的工作区
 
 mod+n : 打开网络管理器(nmtui)
+
+mod+g : 切换网格布局

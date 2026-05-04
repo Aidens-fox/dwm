@@ -44,11 +44,13 @@ static const int resizehints = 1;    /* 1 means respect size hints in tiled resi
 static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
+#include "layouts.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+        { "HHH",      grid },
 };
 
 /* key definitions */
@@ -87,6 +89,7 @@ static const Key keys[] = {
         { 0, XF86XK_MonBrightnessUp,   spawn, {.v = brighter } },
 
 	{ MODKEY,			XK_q,	   spawn, 	   {.v = slock } },
+	{ MODKEY, XK_g, setlayout, {.v = &layouts[3]} },  // 切换网格布局
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_n,      spawn,          {.v = nmcmd } },
 	{ MODKEY, XK_s, spawn, {.v = flameshotcmd } },
