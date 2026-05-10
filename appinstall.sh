@@ -7,7 +7,7 @@ sudo bash  -c 'echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$r
 echo "set archCN"
 sudo bash -c 'echo -e "\n[archlinuxcn]\nServer = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/\$arch" >> /etc/pacman.conf'
 sudo pacman -Syyu
-echo "install yay,archlinuxcn-keyring"
+echo "install yay,keyring"
 sudo pacman -S archlinuxcn-keyring
 sudo pacman -S  yay base-devel git
 echo "install xorg"
