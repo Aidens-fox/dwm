@@ -27,8 +27,6 @@ dwm-actualfullscreen
 
 dwm-resizecorners
 
-dwm-tagshift
-
 dwm-restartsig
 
 dwm-gridmode
@@ -50,14 +48,6 @@ mod+` : 创建临时终端
 mod+shift+f ： 真正全屏
 
 mod+ctrl+q : 刷新配置
-
-mod+left : 移动到左边的工作区
-
-mod+right ： 移动到右边的工作区
-
-mod+shift+left : 移动窗口到左边的工作区
-
-mod+shift+right ： 移动窗口到右边的工作区
 
 mod+n : 打开网络管理器(nmtui)
 
