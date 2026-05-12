@@ -96,12 +96,6 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
         { MODKEY|ShiftMask,                       XK_f,      togglefullscr, {0} },
-        /* 移动视图（切换当前显示的标签组） */
-        { MODKEY,                       XK_Left,  shiftview, {.i = -1 } },
-        { MODKEY,                       XK_Right, shiftview, {.i = +1 } },
-        /* 移动窗口（改变当前窗口的归属标签） */
-        { MODKEY|ShiftMask,             XK_Left,  shifttag,  {.i = -1 } },
-        { MODKEY|ShiftMask,             XK_Right, shifttag,  {.i = +1 } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
