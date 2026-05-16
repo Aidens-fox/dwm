@@ -1,11 +1,68 @@
 --- dwm.c
 +++ dwm.c
-@@ -204,8 +204,6 @@ static void setlayout(const Arg *arg);
- static void setmfact(const Arg *arg);
- static void setup(void);
- static void seturgent(Client *c, int urg);
--static void shiftview(const Arg *arg);
--static void shifttag(const Arg *arg);
- static void showhide(Client *c);
- static void sigchld(int unused);
- static void spawn(const Arg *arg);
+@@ -287,9 +318,10 @@ static void (*handler[LASTEvent]) (XEvent *) = {
+ 	[MapRequest] = maprequest,
+ 	[MotionNotify] = motionnotify,
+ 	[PropertyNotify] = propertynotify,
++	[ResizeRequest] = resizerequest,
+ 	[UnmapNotify] = unmapnotify
+ };
+-static Atom wmatom[WMLast], netatom[NetLast];
++static Atom wmatom[WMLast], netatom[NetLast], xatom[XLast];
+ static int running = 1;
+ static Cur *cursor[CurLast];
+ static Clr **scheme;
+@@ -471,7 +503,7 @@ buttonpress(XEvent *e)
+ 			arg.ui = 1 << i;
+ 		} else if (ev->x < x + TEXTW(selmon->ltsymbol))
+ 			click = ClkLtSymbol;
+-		else if (ev->x > selmon->ww - (int)TEXTW(stext))
++		else if (ev->x > selmon->ww - (int)TEXTW(stext) - getsystraywidth())
+ 			click = ClkStatusText;
+ 		else
+ 			click = ClkWinTitle;
+@@ -967,15 +1067,32 @@ getatomprop(Client *c, Atom prop)
+ 	unsigned char *p = NULL;
+ 	Atom da, atom = None;
+ 
+-	if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, XA_ATOM,
++	/* FIXME getatomprop should return the number of items and a pointer to
++	 * the stored data instead of this workaround */
++	Atom req = XA_ATOM;
++	if (prop == xatom[XembedInfo])
++		req = xatom[XembedInfo];
++
++	if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, req,
+ 		&da, &di, &nitems, &dl, &p) == Success && p) {
+-		if (nitems > 0)
+-			atom = *(Atom *)p;
++		atom = *(Atom *)p;
++		if (da == xatom[XembedInfo] && nitems == 2)
++			atom = ((Atom *)p)[1];
+ 		XFree(p);
+ 	}
+ 	return atom;
+ }
+ 
++unsigned int
++getsystraywidth()
++{
++	unsigned int w = 0;
++	Client *i;
++	if(showsystray)
++		for(i = systray->icons; i; w += i->w + systrayspacing, i = i->next) ;
++	return w ? w + systrayspacing : 1;
++}
++
+ int
+ getrootptr(int *x, int *y)
+ {
+@@ -1639,7 +1820,7 @@ setfocus(Client *c)
+ 			XA_WINDOW, 32, PropModeReplace,
+ 			(unsigned char *) &(c->win), 1);
+ 	}
+-	sendevent(c, wmatom[WMTakeFocus]);
++	sendevent(c->win, wmatom[WMTakeFocus], NoEventMask, wmatom[WMTakeFocus], CurrentTime, 0, 0, 0);
+ }
+ 
+ void

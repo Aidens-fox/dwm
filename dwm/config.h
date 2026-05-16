@@ -1,14 +1,18 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int systraypinning = 0;   /* 0: 托盘随当前 tag 移动, >0: 固定的监视器编号 */
+static const unsigned int systrayonleft  = 1;   /* 0: 托盘在状态栏右侧, 1: 托盘在状态栏左侧 */
+static const unsigned int systrayspacing = 3;   /* 托盘图标之间的间距 */
+static const int showsystray             = 1;   /* 1: 默认显示托盘, 0: 隐藏托盘 */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 0;        /* 0 means bottom bar */
 static const char *fonts[]          = {	
-					"JetBrainsMono Nerd Font:size=14",
-					"Sarasa Mono SC:size=14",
-					"Noto Color Emoji:size=14"
+					"JetBrainsMono Nerd Font:size=15",
+					"Sarasa Mono SC:size=15",
+					"Noto Color Emoji:size=15"
 				      };
 static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=14";
 static const char col_gray1[]       = "#282828";

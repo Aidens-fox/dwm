@@ -5,6 +5,8 @@ dwm配置分享
 <img src="https://github.com/user-attachments/assets/d0eee5ec-5121-4f42-81fe-0bc5452c91e1"
 width="500" style="height: auto;">
 
+<img src="dwm.png" width="500" style="height: auto;">
+
 使用字体：
 
 JetBrainsMono Nerd Font
@@ -30,6 +32,8 @@ dwm-resizecorners
 dwm-restartsig
 
 dwm-gridmode
+
+dwm-systray
 
 dmenu补丁
 

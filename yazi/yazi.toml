@@ -7,17 +7,12 @@ imv = [
     { run = 'imv "$@"', desc = "imv", orphan = true, for = "unix" }
 ]
 
-emacs-gui = [
-    { run = 'emacs %s', desc = "Emacs (GUI)", orphan = true, for = "unix" }
-]
-
 play = [
     { run = 'mpv "$@"', orphan = true, desc = "MPV" },
 ]
 
 [open]
 prepend_rules = [
-    { url = "*.md", use = [ "emacs-gui", "edit" ] },
     { url = "*.lua", use = "edit" },
 
     { mime = "video/*", use = "play" },

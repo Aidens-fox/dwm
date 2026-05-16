@@ -1,7 +1,7 @@
 #!/bin/bash
 #作者Aidens-fox
-#2026-04-11
-#版本:1.2
+#2026-05-17
+#版本:1.3
 echo "set Software mirror site(tuna)"
 sudo bash  -c 'echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist'
 echo "set archCN"
@@ -14,8 +14,8 @@ echo "install xorg"
 sudo pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot xorg-xset xsel xorg-xkill libx11 libxft libxinerama xwallpaper
 echo "install Font"
 sudo pacman -S ttf-sarasa-gothic  noto-fonts  noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono-nerd
-echo "install yazi emacs nvim"
-sudo pacman -S  neovim mpv yazi ueberzugpp emacs ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick unzip nwg-look lxsession imv slock udisks2 trash-cli brightnessctl 
+echo "install yazi nvim"
+sudo pacman -S  neovim mpv yazi ueberzugpp ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick unzip nwg-look lxsession imv slock udisks2 trash-cli brightnessctl 
 echo "install zsh"
 sudo pacman -S zsh-completions zsh
 chsh -s /usr/bin/zsh
@@ -41,8 +41,6 @@ cd $HOME/dwm
 cp -r nvim $HOME/.config/
 echo "cp wallpaper"
 cp -r 壁纸 $HOME/
-echo "cp emacs"
-cp -r emacs $HOME/.config/
 echo "cp yazi"
 cp -r yazi $HOME/.config/
 echo "cp .xinitrc"
