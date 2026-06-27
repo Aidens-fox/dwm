@@ -1,22 +1,24 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+
+//static const unsigned int gappx     = 12;       /* 窗口间隔*/
 static const unsigned int systraypinning = 0;   /* 0: 托盘随当前 tag 移动, >0: 固定的监视器编号 */
-static const unsigned int systrayonleft  = 1;   /* 0: 托盘在状态栏右侧, 1: 托盘在状态栏左侧 */
+static const unsigned int systrayonleft  = 0;   /* 0: 托盘在状态栏右侧, 1: 托盘在状态栏左侧 */
 static const unsigned int systrayspacing = 3;   /* 托盘图标之间的间距 */
-static const int showsystray             = 1;   /* 1: 默认显示托盘, 0: 隐藏托盘 */
+static const int showsystray             = 1;   /* 1: 显示托盘, 0: 隐藏托盘 */
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {	
-					"JetBrainsMono Nerd Font:size=15",
-					"Sarasa Mono SC:size=15",
-					"Noto Color Emoji:size=15"
+					"JetBrainsMono Nerd Font:size=17",
+					"Sarasa Mono SC:size=17",
+					"Noto Color Emoji:size=17"
 				      };
 static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=14";
-static const char col_gray1[]       = "#282828";
-static const char col_gray2[]       = "#282828";
+static const char col_gray1[]       = "#32302f";
+static const char col_gray2[]       = "#1d2021";
 static const char col_gray3[]       = "#ebdbb2";
 static const char col_gray4[]       = "#ebdbb2";
 static const char col_cyan[]        = "#5b623e";
@@ -42,12 +44,13 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
+#include "tatami.c"
 #include "layouts.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -55,6 +58,7 @@ static const Layout layouts[] = {
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
         { "HHH",      grid },
+	{ "|+|",      tatami },
 };
 
 /* key definitions */
@@ -85,6 +89,18 @@ static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", "scratchpad", NULL };
 static const char *slock[] = { "slock",NULL };
 static const Key keys[] = {
+
+	{ MODKEY|ShiftMask,             XK_h,      layoutscroll,   {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_l,      layoutscroll,   {.i = +1 } },	
+
+
+	{ MODKEY, XK_y, setlayout, {.v = &layouts[4]} },
+
+
+/*	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } }, */	
+
 	/* modifier                     key        function        argument */
         { 0, XF86XK_AudioMute,        spawn, {.v = mute_vol } },
         { 0, XF86XK_AudioLowerVolume, spawn, {.v = down_vol } },

@@ -1,8 +1,9 @@
 # dwm
-# appinstall脚本只针对基本系统，如果已经不是基本系统请不要运行!
 dwm配置分享
 
 <img src="dwm.png" width="700" style="height: auto;">
+
+状态栏采用脚本(look.sh)
 
 使用字体：
 
@@ -13,6 +14,10 @@ Sarasa Mono SC
 添加的补丁：
 
 dwm补丁
+
+dwm-tatami
+
+dwm-grid 
 
 dwm-pertag
 
@@ -53,3 +58,11 @@ mod+ctrl+q : 刷新配置
 mod+n : 打开网络管理器(nmtui)
 
 mod+g : 切换网格布局
+
+mod+q : 锁屏
+
+mod+shift+h/l : 切换窗口布局
+
+mod+y : 切换tatami布局
+
+mod+g : 切换grid布局
