@@ -15,25 +15,17 @@ Sarasa Mono SC
 
 dwm补丁
 
-dwm-tatami
-
-dwm-grid 
-
-dwm-pertag
-
-dwm-scratchpad
+dwm-actualfullscreen
 
 dwm-alwayscenter
 
 dwm-attachaside
 
-dwm-actualfullscreen
-
-dwm-resizecorners
+dwm-pertag
 
 dwm-restartsig
 
-dwm-gridmode
+dwm-scratchpad
 
 dwm-systray
 
@@ -61,8 +53,3 @@ mod+g : 切换网格布局
 
 mod+q : 锁屏
 
-mod+shift+h/l : 切换窗口布局
-
-mod+y : 切换tatami布局
-
-mod+g : 切换grid布局
