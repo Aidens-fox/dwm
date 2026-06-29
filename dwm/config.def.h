@@ -1,9 +1,9 @@
 /* 托盘 */
-static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
-static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;        /* 0 means no systray */
+static const unsigned int systraypinning = 0;   /* 0:系统托盘跟随选定的显示器，>0：系统托盘固定到显示器 X */
+static const unsigned int systrayonleft = 0;    /* 0:托盘在右边，1:在左边 */
+static const unsigned int systrayspacing = 2;   /* 托盘间距 */
+static const int systraypinningfailfirst = 1;   /* 1：如果固定失败，则在第一个显示器上显示系统托盘 */
+static const int showsystray        = 1;        /* 0:不显示托盘 */
 
 
 /* 外观 */
@@ -27,6 +27,8 @@ static const char *colors[][3]      = {
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
+static const XPoint stickyicon[]    = { {0,0}, {4,0}, {4,8}, {2,6}, {0,8}, {0,0} }; /* represents the icon as an array of vertices */
+static const XPoint stickyiconbb    = {4,8};	/* defines the bottom right corner of the polygon's bounding box (speeds up scaling) */
 
 /* 标签显示文字 */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -54,6 +56,7 @@ static const Layout layouts[] = {
 };
 
 /* 按键自定义 */
+#include "movestack.c"
 #include <X11/XF86keysym.h>                       /* 启用多媒体按键 */                              
 #define MODKEY Mod4Mask                           /* Mod1是alt键,Mod4是win键 */ 
 #define TAGKEYS(KEY,TAG) \
@@ -92,6 +95,10 @@ static const Key keys[] = {
        { 0, XF86XK_MonBrightnessDown, spawn, {.v = dimmer } },
        { 0, XF86XK_MonBrightnessUp,   spawn, {.v = brighter } },
        
+       { MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } }, // 窗口向下移动 
+       { MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } }, // 窗口向上移动 
+
+       { MODKEY,                       XK_a,      togglesticky,   {0} }, // 黏浮动窗口 
        { MODKEY, XK_s, spawn, {.v = flameshotcmd } }, //截屏(火焰截图) 
        { MODKEY,                       XK_n,      spawn,          {.v = nmcmd } }, // 打开网络管理器(nmtui) 
        { MODKEY,			XK_q,	   spawn, 	   {.v = slock } }, // 锁屏
@@ -108,6 +115,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },

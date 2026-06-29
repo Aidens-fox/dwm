@@ -15,6 +15,10 @@ Sarasa Mono SC
 
 dwm补丁
 
+dwm-stickyindicator
+
+dwm-sticky
+
 dwm-actualfullscreen
 
 dwm-alwayscenter
@@ -52,4 +56,10 @@ mod+n : 打开网络管理器(nmtui)
 mod+g : 切换网格布局
 
 mod+q : 锁屏
+
+mod+j : 窗口向下移动 
+
+mod+k : 窗口向上移动 
+
+
 
