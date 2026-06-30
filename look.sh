@@ -3,7 +3,7 @@
 light=$(brightnessctl -m | cut -d, -f4)
 bat_s=$(< /sys/class/power_supply/BAT0/status)
 bat=$(< /sys/class/power_supply/BAT0/capacity)
-time=$(date +"󱑂 %Y-%m-%d-(0%u) %H:%M:%S")
+time=$(date +"󰞌%Y-%m-%d-(0%u) %H:%M:%S")
 audio_raw=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
 
 if [[ "$audio_raw" == *"[MUTED]"* || "$audio_raw" == *"[NO]"* ]]; then
@@ -24,10 +24,11 @@ else
     proxy_str="-"       
 fi
 
+# 4. 判断电池图标
 if [[ "$bat_s" == "Discharging" ]]; then
-    bat_icon=" "
+    bat_icon="󰁹"
 else
-    bat_icon=" "
+    bat_icon="󰂄"
 fi
 
-xsetroot -name "[$proxy_str][$net_icon][ $audio][󰌵$light][$bat_icon$bat%][$time]"
+xsetroot -name "[$proxy_str/$net_icon][ $audio][󰌵$light][$bat_icon$bat%][$time]"

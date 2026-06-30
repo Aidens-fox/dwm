@@ -6,7 +6,7 @@ autoload -U compinit
 compinit
 zstyle ':completion:*' menu select
 zstyle ':completion::complete:*' gain-privileges 1
-PROMPT="%n@%m %1~ %# "
+PROMPT="%~ %# "
 alias dwm='startx'
 
 HISTFILE=~/.zsh_history
