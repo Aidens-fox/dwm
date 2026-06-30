@@ -5,15 +5,15 @@ dwm配置分享
 
 状态栏采用脚本(look.sh)
 
-使用字体：
+### 使用字体：
 
 JetBrainsMono Nerd Font
 
 Sarasa Mono SC
 
-添加的补丁：
+### 添加的补丁：
 
-dwm补丁
+#### dwm补丁
 
 dwm-stickyindicator
 
@@ -33,7 +33,7 @@ dwm-scratchpad
 
 dwm-systray
 
-dmenu补丁
+#### dmenu补丁
 
 dmenu-caseinsensitive
 
@@ -41,9 +41,19 @@ dmenu-fuzzymatch
 
 dmenu-numbers
 
-st基于https://github.com/gnuunixchad/st
+#### st补丁
 
-添加的快捷键：
+st-clipboard
+
+st-colorschemes
+
+st-copyurl
+
+st-font2
+
+st-scrollback-reflow-standalone-extended
+
+### dwm添加的快捷键：
 
 mod+` : 创建临时终端
 
@@ -61,5 +71,16 @@ mod+shift+j : 窗口向下移动
 
 mod+shift+k : 窗口向上移动 
 
+mod+a : 让当前聚焦窗口变成黏窗口
 
+### st添加的快捷键:
 
+alt+1~8: 切换终端主题
+
+ctrl+1 : 放大字体
+
+ctrl+2 : 缩小字体
+
+ctrl+0 : 默认字体大小
+
+alt+l : 复制网址

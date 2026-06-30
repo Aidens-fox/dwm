@@ -1,26 +1,28 @@
-From 3f41a815d3a0527274b1e83238e821bd286c0905 Mon Sep 17 00:00:00 2001
+From 55e224cf4d767db7d9184e70a0f3838935679a53 Mon Sep 17 00:00:00 2001
 From: Milos Nikic <nikic.milos@gmail.com>
 Date: Thu, 15 Jan 2026 16:08:59 -0800
-Subject: [PATCH]     st: alternative scrollback using ring buffer and view
- offset
+Subject: [PATCH] st: alternative scrollback using ring buffer and view offset
 
-    Implement scrollback as a fixed-size ring buffer and render history
-    by offsetting the view instead of copying screen contents.
-    Implement reflow of history and screen content on resize if it is needed.
+Implement scrollback as a fixed-size ring buffer and render history
+by offsetting the view instead of copying screen contents.
+Implement reflow of history and screen content on resize if it is needed.
 
-    Tradeoffs / differences:
-    - Scrollback is disabled on the alternate screen
-    - Simpler model than the existing scrollback patch set
-    - Mouse wheel scrolling enabled by default
-    - Shift + page up/down and shift + end/home work as well.
-    - When using vim, mouse movement will no longer move the cursor.
-    - There can be visual artifacts if width of the window is shrank to the size smaller than the shell promp.
+Tradeoffs / differences:
+  - Scrollback is disabled on the alternate screen
+  - Simpler model than the existing scrollback patch set
+  - Mouse wheel scrolling enabled by default
+  - Shift + page up/down and shift + end/home work as well.
+  - When using vim, mouse movement will no longer move the cursor.
+  - There can be visual artifacts if width of the window is shrank to the
+    size smaller than the shell promp.
+  - Mouse selection is persistent even if it goes off screen but it get
+    reset on resize.
 ---
  config.def.h |   9 +
- st.c         | 720 ++++++++++++++++++++++++++++++++++++++++++++-------
+ st.c         | 727 ++++++++++++++++++++++++++++++++++++++++++++-------
  st.h         |   5 +
  x.c          |  17 ++
- 4 files changed, 658 insertions(+), 93 deletions(-)
+ 4 files changed, 659 insertions(+), 99 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
 index 2cd740a..135a0b1 100644
@@ -47,7 +49,7 @@ index 2cd740a..135a0b1 100644
 + */
 +unsigned int scrollback_lines = 5000;
 diff --git a/st.c b/st.c
-index e55e7b3..3b0803f 100644
+index e55e7b3..9565003 100644
 --- a/st.c
 +++ b/st.c
 @@ -5,6 +5,7 @@
@@ -67,7 +69,7 @@ index e55e7b3..3b0803f 100644
  static void tmoveto(int, int);
  static void tmoveato(int, int);
  static void tnewline(int);
-@@ -232,6 +233,379 @@ static const uchar utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8};
+@@ -232,6 +233,376 @@ static const uchar utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8};
  static const Rune utfmin[UTF_SIZ + 1] = {       0,    0,  0x80,  0x800,  0x10000};
  static const Rune utfmax[UTF_SIZ + 1] = {0x10FFFF, 0x7F, 0x7FF, 0xFFFF, 0x10FFFF};
  
@@ -377,9 +379,6 @@ index e55e7b3..3b0803f 100644
 +	sel.ob.y += delta;
 +	sel.oe.y += delta;
 +
-+	if (sel.ne.y < 0 || sel.nb.y >= term.row)
-+		selclear();
-+
 +	sb_view_changed();
 +}
 +
@@ -447,7 +446,7 @@ index e55e7b3..3b0803f 100644
  ssize_t
  xwrite(int fd, const char *s, size_t len)
  {
-@@ -404,20 +778,23 @@ selinit(void)
+@@ -404,20 +775,23 @@ selinit(void)
  	sel.ob.x = -1;
  }
  
@@ -478,7 +477,7 @@ index e55e7b3..3b0803f 100644
  void
  selstart(int col, int row, int snap)
  {
-@@ -485,10 +862,10 @@ selnormalize(void)
+@@ -485,10 +859,10 @@ selnormalize(void)
  	/* expand selection over line breaks */
  	if (sel.type == SEL_RECTANGULAR)
  		return;
@@ -491,7 +490,7 @@ index e55e7b3..3b0803f 100644
  		sel.ne.x = term.col - 1;
  }
  
-@@ -514,6 +891,7 @@ selsnap(int *x, int *y, int direction)
+@@ -514,6 +888,7 @@ selsnap(int *x, int *y, int direction)
  	int newx, newy, xt, yt;
  	int delim, prevdelim;
  	const Glyph *gp, *prevgp;
@@ -499,7 +498,7 @@ index e55e7b3..3b0803f 100644
  
  	switch (sel.snap) {
  	case SNAP_WORD:
-@@ -521,7 +899,7 @@ selsnap(int *x, int *y, int direction)
+@@ -521,7 +896,7 @@ selsnap(int *x, int *y, int direction)
  		 * Snap around if the word wraps around at the end or
  		 * beginning of a line.
  		 */
@@ -508,7 +507,7 @@ index e55e7b3..3b0803f 100644
  		prevdelim = ISDELIM(prevgp->u);
  		for (;;) {
  			newx = *x + direction;
-@@ -536,14 +914,15 @@ selsnap(int *x, int *y, int direction)
+@@ -536,14 +911,15 @@ selsnap(int *x, int *y, int direction)
  					yt = *y, xt = *x;
  				else
  					yt = newy, xt = newx;
@@ -527,7 +526,7 @@ index e55e7b3..3b0803f 100644
  			delim = ISDELIM(gp->u);
  			if (!(gp->mode & ATTR_WDUMMY) && (delim != prevdelim
  					|| (delim && gp->u != prevgp->u)))
-@@ -564,14 +943,14 @@ selsnap(int *x, int *y, int direction)
+@@ -564,14 +940,14 @@ selsnap(int *x, int *y, int direction)
  		*x = (direction < 0) ? 0 : term.col - 1;
  		if (direction < 0) {
  			for (; *y > 0; *y += direction) {
@@ -544,7 +543,7 @@ index e55e7b3..3b0803f 100644
  						& ATTR_WRAP)) {
  					break;
  				}
-@@ -585,8 +964,9 @@ char *
+@@ -585,8 +961,9 @@ char *
  getsel(void)
  {
  	char *str, *ptr;
@@ -555,7 +554,7 @@ index e55e7b3..3b0803f 100644
  
  	if (sel.ob.x == -1)
  		return NULL;
-@@ -596,29 +976,33 @@ getsel(void)
+@@ -596,29 +973,33 @@ getsel(void)
  
  	/* append every set & selected glyph to the selection */
  	for (y = sel.nb.y; y <= sel.ne.y; y++) {
@@ -596,7 +595,7 @@ index e55e7b3..3b0803f 100644
  		/*
  		 * Copy and pasting of line endings is inconsistent
  		 * in the inconsistent terminal and GUI world.
-@@ -628,8 +1012,13 @@ getsel(void)
+@@ -628,8 +1009,13 @@ getsel(void)
  		 * st.
  		 * FIXME: Fix the computer world.
  		 */
@@ -611,7 +610,7 @@ index e55e7b3..3b0803f 100644
  			*ptr++ = '\n';
  	}
  	*ptr = 0;
-@@ -845,6 +1234,12 @@ ttywrite(const char *s, size_t n, int may_echo)
+@@ -845,6 +1231,12 @@ ttywrite(const char *s, size_t n, int may_echo)
  {
  	const char *next;
  
@@ -624,7 +623,7 @@ index e55e7b3..3b0803f 100644
  	if (may_echo && IS_SET(MODE_ECHO))
  		twrite(s, n, 1);
  
-@@ -965,6 +1360,8 @@ tsetdirt(int top, int bot)
+@@ -965,6 +1357,8 @@ tsetdirt(int top, int bot)
  {
  	int i;
  
@@ -633,7 +632,7 @@ index e55e7b3..3b0803f 100644
  	LIMIT(top, 0, term.row-1);
  	LIMIT(bot, 0, term.row-1);
  
-@@ -1030,15 +1427,21 @@ treset(void)
+@@ -1030,15 +1424,21 @@ treset(void)
  	for (i = 0; i < 2; i++) {
  		tmoveto(0, 0);
  		tcursor(CURSOR_SAVE);
@@ -656,7 +655,7 @@ index e55e7b3..3b0803f 100644
  	tresize(col, row);
  	treset();
  }
-@@ -1078,10 +1481,37 @@ void
+@@ -1078,10 +1478,37 @@ void
  tscrollup(int orig, int n)
  {
  	int i;
@@ -694,7 +693,7 @@ index e55e7b3..3b0803f 100644
  	tclearregion(0, orig, term.col-1, orig+n-1);
  	tsetdirt(orig+n, term.bot);
  
-@@ -1097,6 +1527,8 @@ tscrollup(int orig, int n)
+@@ -1097,6 +1524,8 @@ tscrollup(int orig, int n)
  void
  selscroll(int orig, int n)
  {
@@ -703,7 +702,21 @@ index e55e7b3..3b0803f 100644
  	if (sel.ob.x == -1 || sel.alt != IS_SET(MODE_ALTSCREEN))
  		return;
  
-@@ -1717,6 +2149,12 @@ csihandle(void)
+@@ -1105,12 +1534,7 @@ selscroll(int orig, int n)
+ 	} else if (BETWEEN(sel.nb.y, orig, term.bot)) {
+ 		sel.ob.y += n;
+ 		sel.oe.y += n;
+-		if (sel.ob.y < term.top || sel.ob.y > term.bot ||
+-		    sel.oe.y < term.top || sel.oe.y > term.bot) {
+-			selclear();
+-		} else {
+-			selnormalize();
+-		}
++		selnormalize();
+ 	}
+ }
+ 
+@@ -1717,6 +2141,12 @@ csihandle(void)
  			break;
  		case 2: /* all */
  			tclearregion(0, 0, term.col-1, term.row-1);
@@ -716,7 +729,7 @@ index e55e7b3..3b0803f 100644
  			break;
  		default:
  			goto unknown;
-@@ -2106,7 +2544,7 @@ tdumpline(int n)
+@@ -2106,7 +2536,7 @@ tdumpline(int n)
  	const Glyph *bp, *end;
  
  	bp = &term.line[n][0];
@@ -725,7 +738,7 @@ index e55e7b3..3b0803f 100644
  	if (bp != end || bp->u != ' ') {
  		for ( ; bp <= end; ++bp)
  			tprinter(buf, utf8encode(bp->u, buf));
-@@ -2163,6 +2601,46 @@ tdeftran(char ascii)
+@@ -2163,6 +2593,46 @@ tdeftran(char ascii)
  	}
  }
  
@@ -772,7 +785,7 @@ index e55e7b3..3b0803f 100644
  void
  tdectest(char c)
  {
-@@ -2569,83 +3047,136 @@ twrite(const char *buf, int buflen, int show_ctrl)
+@@ -2569,83 +3039,139 @@ twrite(const char *buf, int buflen, int show_ctrl)
  void
  tresize(int col, int row)
  {
@@ -816,6 +829,9 @@ index e55e7b3..3b0803f 100644
 -	for (i += row; i < term.row; i++) {
 -		free(term.line[i]);
 -		free(term.alt[i]);
++	if (sel.ob.x != -1)
++		selclear();
++
 +	/* Operate on the currently visible screen buffer. */
 +	if (is_alt) {
 +		tmp = term.line;
@@ -969,7 +985,7 @@ index e55e7b3..3b0803f 100644
  }
  
  void
-@@ -2659,12 +3190,13 @@ drawregion(int x1, int y1, int x2, int y2)
+@@ -2659,12 +3185,13 @@ drawregion(int x1, int y1, int x2, int y2)
  {
  	int y;
  
@@ -985,7 +1001,7 @@ index e55e7b3..3b0803f 100644
  	}
  }
  
-@@ -2685,10 +3217,12 @@ draw(void)
+@@ -2685,10 +3212,12 @@ draw(void)
  		cx--;
  
  	drawregion(0, 0, term.col, term.row);
