@@ -1,4 +1,7 @@
 # dwm
+
+# appinstall.sh安装脚本仅基本系统可用!
+
 dwm配置分享
 
 <img src="dwm.png" width="700" style="height: auto;">
