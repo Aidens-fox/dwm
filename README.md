@@ -8,6 +8,15 @@ dwm配置分享
 
 状态栏采用脚本(look.sh)
 
+### 你需要安装的软件 
+- clipmenu
+
+- flameshot
+
+- slock
+
+- brightnessctl
+
 ### 使用字体：
 
 JetBrainsMono Nerd Font
@@ -75,6 +84,8 @@ mod+shift+j : 窗口向下移动
 mod+shift+k : 窗口向上移动 
 
 mod+a : 让当前聚焦窗口变成黏窗口
+
+mod+v : 打开剪贴板
 
 ### st添加的快捷键:
 

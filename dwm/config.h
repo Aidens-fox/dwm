@@ -70,6 +70,7 @@ static const Layout layouts[] = {
 
 /* 变量(命令) */
 static const char *flameshotcmd[] = { "flameshot", "gui", NULL };
+static const char *clipmenu[] = { "clipmenu", NULL };
 static const char *slock[] = { "slock",NULL };
 static const char *nmcmd[]  = { "st", "-c", "network-manager", "-e", "nmtui", NULL };
 
@@ -100,6 +101,7 @@ static const Key keys[] = {
 
        { MODKEY,                       XK_a,      togglesticky,   {0} }, // 黏浮动窗口 
        { MODKEY, XK_s, spawn, {.v = flameshotcmd } }, //截屏(火焰截图) 
+       { MODKEY, XK_v, spawn, {.v = clipmenu } }, //剪贴板
        { MODKEY,                       XK_n,      spawn,          {.v = nmcmd } }, // 打开网络管理器(nmtui) 
        { MODKEY,			XK_q,	   spawn, 	   {.v = slock } }, // 锁屏
        { MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } }, // 临时终端

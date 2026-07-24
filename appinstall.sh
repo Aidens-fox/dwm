@@ -15,7 +15,7 @@ sudo pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot xorg-xset xsel x
 echo "install Font"
 sudo pacman -S ttf-sarasa-gothic  noto-fonts  noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono-nerd
 echo "install app"
-sudo pacman -S  neovim mpv yazi ueberzugpp ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick unzip nwg-look lxsession imv slock udisks2 trash-cli brightnessctl caja flameshot batsignal dunst nm-connection-editor network-manager-applet 
+sudo pacman -S  neovim mpv yazi ueberzugpp ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick unzip nwg-look lxsession imv slock udisks2 trash-cli brightnessctl caja flameshot batsignal dunst nm-connection-editor network-manager-applet clipmenu 
 echo "install zsh"
 sudo pacman -S zsh-completions zsh
 chsh -s /usr/bin/zsh
