@@ -5,14 +5,15 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 /usr/bin/lxpolkit &
 xrdb -merge ~/.Xresources
 
-while true; do
-    $HOME/look.sh
-   sleep 1s
-done &
+# while true; do
+  #  $HOME/look.sh
+ #  sleep 1s
+#done &
+slstatus &
 fcitx5 -d & 
 nm-applet &
 dunst &
-batsignal -w 20 -c 15 -d 5 &
+clipmenud &
 xwallpaper --zoom 壁纸/g.png
 xset s off -dpms 
 exec dwm

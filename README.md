@@ -6,7 +6,10 @@ dwm配置分享
 
 <img src="dwm.png" width="700" style="height: auto;">
 
-状态栏采用脚本(look.sh)
+### 如果状态栏音量显示n/a,请执行以下命令
+`sudo modprobe snd-pcm-oss`
+
+`echo 'snd-pcm-oss' | sudo tee /etc/modules-load.d/snd-pcm-oss.conf`
 
 ### 你需要安装的软件 
 - clipmenu
