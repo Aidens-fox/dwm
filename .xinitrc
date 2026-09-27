@@ -4,11 +4,7 @@ dbus-update-activation-environment --systemd DISPLAY
 dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=dwm
 /usr/bin/lxpolkit &
 xrdb -merge ~/.Xresources
-
-# while true; do
-  #  $HOME/look.sh
- #  sleep 1s
-#done &
+export _JAVA_AWT_WM_NONREPARENTING=1
 slstatus &
 fcitx5 -d & 
 nm-applet &
