@@ -1,9 +1,9 @@
 /* 托盘 */
-static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
-static const unsigned int systrayspacing = 2;   /* systray spacing */
-static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;        /* 0 means no systray */
+static const unsigned int systraypinning = 0;   /* 0:系统托盘跟随选定的显示器，>0：系统托盘固定到显示器 X */
+static const unsigned int systrayonleft = 0;    /* 0:托盘在右边，1:在左边 */
+static const unsigned int systrayspacing = 2;   /* 托盘间距 */
+static const int systraypinningfailfirst = 1;   /* 1：如果固定失败，则在第一个显示器上显示系统托盘 */
+static const int showsystray        = 1;        /* 0:不显示托盘 */
 
 
 /* 外观 */
@@ -56,6 +56,7 @@ static const Layout layouts[] = {
 };
 
 /* 按键自定义 */
+#include "movestack.c"
 #include <X11/XF86keysym.h>                       /* 启用多媒体按键 */                              
 #define MODKEY Mod4Mask                           /* Mod1是alt键,Mod4是win键 */ 
 #define TAGKEYS(KEY,TAG) \
@@ -69,6 +70,7 @@ static const Layout layouts[] = {
 
 /* 变量(命令) */
 static const char *flameshotcmd[] = { "flameshot", "gui", NULL };
+static const char *clipmenu[] = { "clipmenu", NULL };
 static const char *slock[] = { "slock",NULL };
 static const char *nmcmd[]  = { "st", "-c", "network-manager", "-e", "nmtui", NULL };
 
@@ -94,8 +96,12 @@ static const Key keys[] = {
        { 0, XF86XK_MonBrightnessDown, spawn, {.v = dimmer } },
        { 0, XF86XK_MonBrightnessUp,   spawn, {.v = brighter } },
        
-       	{ MODKEY,                       XK_a,      togglesticky,   {0} }, // 黏浮动窗口 
+       { MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } }, // 窗口向下移动 
+       { MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } }, // 窗口向上移动 
+
+       { MODKEY,                       XK_a,      togglesticky,   {0} }, // 黏浮动窗口 
        { MODKEY, XK_s, spawn, {.v = flameshotcmd } }, //截屏(火焰截图) 
+       { MODKEY, XK_v, spawn, {.v = clipmenu } }, //剪贴板
        { MODKEY,                       XK_n,      spawn,          {.v = nmcmd } }, // 打开网络管理器(nmtui) 
        { MODKEY,			XK_q,	   spawn, 	   {.v = slock } }, // 锁屏
        { MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } }, // 临时终端
@@ -111,6 +117,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },

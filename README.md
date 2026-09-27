@@ -48,6 +48,8 @@ dwm-scratchpad
 
 dwm-systray
 
+dwm-fullgaps
+
 #### dmenu补丁
 
 dmenu-caseinsensitive
@@ -89,6 +91,12 @@ mod+shift+k : 窗口向上移动
 mod+a : 让当前聚焦窗口变成黏窗口
 
 mod+v : 打开剪贴板
+
+mod+= : 增加窗口间距
+
+mod+- : 减少窗口间距
+
+mod+shift+= : 恢复默认窗口间距
 
 ### st添加的快捷键:
 

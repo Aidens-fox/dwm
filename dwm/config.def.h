@@ -5,9 +5,11 @@ static const unsigned int systrayspacing = 2;   /* 托盘间距 */
 static const int systraypinningfailfirst = 1;   /* 1：如果固定失败，则在第一个显示器上显示系统托盘 */
 static const int showsystray        = 1;        /* 0:不显示托盘 */
 
+/* 默认窗口间距(可动态调节)  */
+static const unsigned int gappx     = 5;
 
 /* 外观 */
-static const unsigned int borderpx  = 1;        /* 窗口边框 */
+static const unsigned int borderpx  = 2;        /* 窗口边框 */
 static const unsigned int snap      = 32;       /* 边缘吸附 */
 static const int showbar            = 1;        /* 是否显示状态栏 */
 static const int topbar             = 1;        /* 0 表示底部状态栏 */
@@ -132,6 +134,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
+	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
