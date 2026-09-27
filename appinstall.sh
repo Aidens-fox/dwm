@@ -2,6 +2,60 @@
 #作者Aidens-fox
 #更新时间:2026-09-25
 #版本:1.5
+echo "set Software mirror site(tuna)"
+sudo bash  -c 'echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" > /etc/pacman.d/mirrorlist'
+echo "set archCN"
+sudo bash -c 'echo -e "\n[archlinuxcn]\nServer = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/\$arch" >> /etc/pacman.conf'
+sudo pacman -Syyu
+echo "install yay,keyring"
+sudo pacman -S archlinuxcn-keyring
+sudo pacman -S  yay base-devel git
+echo "install xorg"
+sudo pacman -S xorg-server xorg-xinit xorg-xrandr xorg-xsetroot xorg-xset xsel xorg-xkill libx11 libxft libxinerama xwallpaper
+echo "install Font"
+sudo pacman -S ttf-sarasa-gothic  noto-fonts  noto-fonts-emoji noto-fonts-cjk ttf-jetbrains-mono-nerd
+echo "install app"
+sudo pacman -S  neovim mpv  ueberzugpp ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick unzip nwg-look lxsession imv slock udisks2 trash-cli brightnessctl caja flameshot batsignal dunst nm-connection-editor network-manager-applet clipmenu 
+echo "install zsh"
+sudo pacman -S zsh-completions zsh
+chsh -s /usr/bin/zsh
+echo "cp dwm"
+mkdir  -p  $HOME/.config
+cp  -r dwm $HOME/.config/
+echo "install dwm"
+cd $HOME/.config/dwm
+sudo make clean install
+echo "cp dmenu"
+cd $HOME/dwm
+cp -r dmenu $HOME/.config/
+cd $HOME/.config/dmenu
+sudo make clean install
+echo "cp st"
+cd $HOME/dwm
+cp -r st $HOME/.config/
+cd $HOME/.config/st
+sudo make clean install
+cd $HOME/dwm
+echo "cp slstatus"
+cd $HOME/dwm
+cp -r slstatus $HOME/.config/slstatus
+cd $HOME/.config/slstatus
+sudo make clean install
+cd $HOME/dwm
+echo "cp nvim "
+cd $HOME/dwm
+cp -r nvim $HOME/.config/
+echo "cp flameshot"
+cp -r flameshot $HOME/.config/
+echo "cp dunst"
+cp -r dunst $HOME/.config/
+echo "cp wallpaper"
+cp -r 壁纸 $HOME/
+echo "cp .xinitrc"
+cp -r .xinitrc $HOME/
+chmod +x $HOME/.xinitrc
+echo "cp .zshrc"
+cp -r .zshrc $HOME/
 echo "install fcitx5"
 sudo pacman -S fcitx5-im fcitx5-chinese-addons fcitx5-pinyin-zhwiki
 sudo bash  -c 'echo "GTK_IM_MODULE=fcitx" >> /etc/environment'
