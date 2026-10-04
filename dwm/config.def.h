@@ -1,7 +1,7 @@
 /* 托盘 */
 static const unsigned int systraypinning = 0;   /* 0:系统托盘跟随选定的显示器，>0：系统托盘固定到显示器 X */
 static const unsigned int systrayonleft = 0;    /* 0:托盘在右边，1:在左边 */
-static const unsigned int systrayspacing = 2;   /* 托盘间距 */
+static const unsigned int systrayspacing = 0;   /* 托盘间距 */
 static const int systraypinningfailfirst = 1;   /* 1：如果固定失败，则在第一个显示器上显示系统托盘 */
 static const int showsystray        = 1;        /* 0:不显示托盘 */
 
@@ -12,11 +12,11 @@ static const unsigned int gappx     = 5;
 static const unsigned int borderpx  = 2;        /* 窗口边框 */
 static const unsigned int snap      = 32;       /* 边缘吸附 */
 static const int showbar            = 1;        /* 是否显示状态栏 */
-static const int topbar             = 1;        /* 0 表示底部状态栏 */
+static const int topbar             = 0;        /* 0 表示底部状态栏 */
 static const char *fonts[]          = {	        /* 状态栏字体 */
-					"JetBrainsMono Nerd Font:size=17",
-					"Sarasa Mono SC:size=17",
-					"Noto Color Emoji:size=17"
+					"JetBrainsMono Nerd Font:size=18",
+					"Sarasa Mono SC:size=18",
+					"Noto Color Emoji:size=18"
 				      };
 /* 状态栏配色(Gruvbox) */
 static const char col_gray1[]       = "#32302f"; /* 背景色 */
@@ -75,7 +75,6 @@ static const char *flameshotcmd[] = { "flameshot", "gui", NULL };
 static const char *clipmenu[] = { "clipmenu", NULL };
 static const char *slock[] = { "slock",NULL };
 static const char *nmcmd[]  = { "st", "-c", "network-manager", "-e", "nmtui", NULL };
-
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "90x24", NULL }; 
 

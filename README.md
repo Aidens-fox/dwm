@@ -6,10 +6,12 @@ dwm配置分享
 
 <img src="dwm.png" width="700" style="height: auto;">
 
-### 如果状态栏音量显示n/a,请执行以下命令
-`sudo modprobe snd-pcm-oss`
+### 相关博文教程
+[从零开始dwm安装配置](https://aidens-fox.github.io/posts/ff86fd1c.html)
 
-`echo 'snd-pcm-oss' | sudo tee /etc/modules-load.d/snd-pcm-oss.conf`
+[短小精悍的终端-st](https://aidens-fox.github.io/posts/ff43cd43.html)
+
+[Gruvbox配色主题补完计划](https://aidens-fox.github.io/posts/3d425d4d.html)
 
 ### 你需要安装的软件 
 - clipmenu

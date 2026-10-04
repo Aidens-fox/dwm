@@ -36,12 +36,6 @@ cp -r st $HOME/.config/
 cd $HOME/.config/st
 sudo make clean install
 cd $HOME/dwm
-echo "cp slstatus"
-cd $HOME/dwm
-cp -r slstatus $HOME/.config/slstatus
-cd $HOME/.config/slstatus
-sudo make clean install
-cd $HOME/dwm
 echo "cp nvim "
 cd $HOME/dwm
 cp -r nvim $HOME/.config/
